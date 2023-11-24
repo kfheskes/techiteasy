@@ -1,41 +1,59 @@
 package nl.novi.techiteasy.controllers;
 
+import nl.novi.techiteasy.models.Television;
+import nl.novi.techiteasy.repositories.TelevisionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 @RestController
 public class TelevisionsController {
 
-    private ArrayList<String> tvlist = new ArrayList<>();
+    @Autowired
+    private TelevisionRepository televisionRepository;
 
     @GetMapping("/televisions")
-    public ResponseEntity<Object> getAllTelevisions(){
-        return ResponseEntity.ok("televisions");
+    public ResponseEntity<List<Television>> getAllTelevisions(){
+        List<Television> televisions = televisionRepository.findAll();
+
+        return ResponseEntity.ok().body(televisions);
     }
 
     @GetMapping("/televisions/{id}")
-    public ResponseEntity<Object> getTelevision(@PathVariable int id){
-        return ResponseEntity.ok("televisions with id: " + id);
+    public ResponseEntity<Television> getTelevision(@PathVariable long id){
+        Television televisions = televisionRepository.getReferenceById(id);
+
+        return ResponseEntity.ok(televisions);
     }
 
-    // is om te data erint te zetten(posten)
+    // is om data erin te zetten(posten)
     @PostMapping("/televisions")
-    public ResponseEntity<Object> addTelevision(@RequestBody String television){
-        this.tvlist.add(television);
+    public ResponseEntity<Television> addTelevision(@RequestBody Television television){
+    Television savedTelevison = televisionRepository.save(television);
 
-        return ResponseEntity.created(null).body("telelevision");
+        return ResponseEntity.created(null).body(savedTelevison);
     }
 
     //Put is om te bewerken
     @PutMapping("televisions/{id}")
-    public ResponseEntity<Object> changeTelevision(@PathVariable int id, @RequestBody String television ){
+    public ResponseEntity<Television> changeTelevision(@PathVariable int id, @RequestBody Television television ){
+        if (id >= 0){
+
+        }
+        else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/televisions/{id}")
-    public ResponseEntity<Object> deleteTelevision(@PathVariable int id){
+    public ResponseEntity<Television> deleteTelevision(@PathVariable int id){
         return ResponseEntity.noContent().build();
     }
 
