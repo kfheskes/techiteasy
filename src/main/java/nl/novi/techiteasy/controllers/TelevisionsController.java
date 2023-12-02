@@ -1,6 +1,7 @@
 package nl.novi.techiteasy.controllers;
 
 import nl.novi.techiteasy.dtos.TelevisionDto;
+import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.service.TelevisionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 public class TelevisionsController {
@@ -19,19 +21,22 @@ public class TelevisionsController {
         this.televisionService = televisionService;
     }
 
-//    @GetMapping("/televisions")
-//    public ResponseEntity<List<Television>> getAllTelevisions(){
-//        List<Television> televisions = televisionRepository.findAll();
-//
-//        return ResponseEntity.ok().body(televisions);
-//    }
-//
-//    @GetMapping("/televisions/{id}")
-//    public ResponseEntity<Television> getTelevision(@PathVariable long id){
-//        Television televisions = televisionRepository.getReferenceById(id);
-//
-//        return ResponseEntity.ok(televisions);
-//    }
+    @GetMapping("/televisions")
+    public ResponseEntity<List<TelevisionDto>> getAllTelevisions(){
+        return ResponseEntity.ok(televisionService.getAllTelevision());
+    }
+
+    @GetMapping("/televisions/{id}")
+    public ResponseEntity<TelevisionDto> getTelevision(@PathVariable long id){
+        TelevisionDto televisionDto = televisionService.getTelevisionId(id);
+        return ResponseEntity.ok(televisionDto);
+    }
+
+    @DeleteMapping("/televisions/{id}")
+    public ResponseEntity<Television> deleteTelevision(@PathVariable long id){
+            televisionService.deleteTelevision(id);
+        return ResponseEntity.noContent().build();
+    }
 
     // is om data erin te zetten(posten)
     @PostMapping("/televisions")
@@ -81,11 +86,6 @@ public class TelevisionsController {
 //
 //    }
 //
-//    @DeleteMapping("/televisions/{id}")
-//    public ResponseEntity<Television> deleteTelevision(@PathVariable long id){
-//        televisionRepository.deleteById(id);
-//
-//        return ResponseEntity.noContent().build();
-//    }
+
 
 }
