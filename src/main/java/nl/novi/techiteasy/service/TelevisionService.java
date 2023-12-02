@@ -1,6 +1,7 @@
 package nl.novi.techiteasy.service;
 
 import nl.novi.techiteasy.dtos.TelevisionDto;
+import nl.novi.techiteasy.dtos.TelevisionInputDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.repositories.TelevisionRepository;
@@ -21,31 +22,7 @@ private final TelevisionRepository repos;
     }
 // achter public geeft aan dat er een object van het type TelevisionDto zal retouneren.
     // (TelevisonDto createTelvisonDto) is een parameterlijst van de methode. het geeft aan dat de methode een parameter verwacht van het type TelevisonDto en deze parmeter wordt beinnen de methode aangeduid als 'createTelevisonDto'
-    public TelevisionDto createTelevision (TelevisionDto createTelevisionDto){
-        Television television = new Television();
-        television.setType(createTelevisionDto.type);
-        television.setBrand(createTelevisionDto.brand);
-        television.setName(createTelevisionDto.name);
-        television.setPrice(createTelevisionDto.price);
-        television.setAvailableSize(createTelevisionDto.availableSize);
-        television.setRefreshRate(createTelevisionDto.refreshRate);
-        television.setScreenType(createTelevisionDto.screenType);
-        television.setScreenType(createTelevisionDto.screenType);
-        television.setScreenQuality(createTelevisionDto.screenQuality);
-        television.setSmartTv(createTelevisionDto.smartTv);
-        television.setWifi(createTelevisionDto.wifi);
-        television.setVoiceControl(createTelevisionDto.voiceControl);
-        television.setHdr(createTelevisionDto.hdr);
-        television.setBluetooth(createTelevisionDto.bluetooth);
-        television.setAmbiLight(createTelevisionDto.ambiLight);
-        television.setOriginalStock(createTelevisionDto.originalStock);
-        television.setSold(createTelevisionDto.sold);
-        television.setSaleDate(createTelevisionDto.saleDate);
-        television.setPurchaseDate(createTelevisionDto.purchaseDate);
-        repos.save(television);
-        createTelevisionDto.id = television.getId();
-        return createTelevisionDto;
-    }
+
 
     // onderstaande haalt data(television) uit de database models Television via de service naar de gebruiker TelevisionDto
     // List<TelevisionDto> wordt gebruikt om geconverteerde DTO-objecten op te slaan voordat ze geroutineerd worden
@@ -60,6 +37,10 @@ private final TelevisionRepository repos;
             televisionDtoList.add(convertTelevisionToTelevisionDto(television));
         }
             return televisionDtoList;
+    }
+    public TelevisionDto createTelevision(TelevisionInputDto createTelevisionDto) {
+        TelevisionDto television = dtoTransferToTelevision(createTelevisionDto);
+        return television;
     }
 
     // onderstaande methode neemt een object van het model Television en convert het naar een DTO van het type TeacherDto
@@ -90,6 +71,30 @@ private final TelevisionRepository repos;
         return televisionDto;
     }
 
+    public TelevisionInputDto dtoTransferToTelevision(TelevisionInputDto dto){
+        Television television = new Television();
+
+        television.setType(dto.type);
+        television.setBrand(dto.brand);
+        television.setName(dto.name);
+        television.setPrice(dto.price);
+        television.setAvailableSize(dto.availableSize);
+        television.setRefreshRate(dto.refreshRate);
+        television.setScreenType(dto.screenType);
+        television.setScreenQuality(dto.screenQuality);
+        television.setSmartTv(dto.smartTv);
+        television.setWifi(dto.wifi);
+        television.setVoiceControl(dto.voiceControl);
+        television.setHdr(dto.hdr);
+        television.setBluetooth(dto.bluetooth);
+        television.setAmbiLight(dto.ambiLight);
+        television.setOriginalStock(dto.originalStock);
+        television.setSold(dto.sold);
+        repos.save(television);
+        dto.id = television.getId();
+        return dto;
+    }
+
     public TelevisionDto getTelevisionId(long id) {
         // De methode findById zoekt naar een televisie in de repository op basis van het opgegeven id.
         // Het resultaat wordt verpakt in een Optional omdat het resultaat mogelijk leeg kan zijn.
@@ -115,12 +120,15 @@ private final TelevisionRepository repos;
         repos.deleteById(id);
     }
 
-        public void updateTelevision(long id, Television television){
+    // geeft TelevisonDto aan omdat je ook de gegevens wilt presenteren aan een externe laag.
+        public TelevisionDto updateTelevision(long id, Television television){
+        // haalt het televisieobject op uit repos op basis van id het resultaat wordt in een optinal geweikkeld omdat het ook leeg kan zijn.
         Optional<Television> getTelevision = repos.findById(id);
         if (getTelevision.isEmpty()){
             throw new RecordNotFoundException("No television found with id ");
         } else {
             Television changeTelevision1 = getTelevision.get();
+            // alle velden van het object Television wordt bijgewerkt
             changeTelevision1.setType(television.getType());
             changeTelevision1.setBrand(television.getBrand());
             changeTelevision1.setName(television.getName());
@@ -141,6 +149,7 @@ private final TelevisionRepository repos;
             changeTelevision1.setPurchaseDate(television.getPurchaseDate());
             // sla de gewijzigde data op:
             Television returnTelevision = repos.save(changeTelevision1);
+            // het bijgewerkte televisieobject wordt omgezet naar TelevisonDto
             return convertTelevisionToTelevisionDto (returnTelevision);
         }
         }

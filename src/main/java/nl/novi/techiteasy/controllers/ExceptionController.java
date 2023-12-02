@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
         @ExceptionHandler(value = RecordNotFoundException.class)
-        public ResponseEntity<Object> exception(RecordNotFoundException exception) {
+        public ResponseEntity<String> exception(RecordNotFoundException exception) {
 
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
 

@@ -50,42 +50,10 @@ public class TelevisionsController {
     }
 
     //Put is om te bewerken
-//    @PutMapping("televisions/{id}")
-//    public ResponseEntity<Optional<Television>> changeTelevision(@PathVariable long id, @RequestBody Television television ){
-//       Optional<Television> changeTelevision = televisionRepository.findById(id);
-//
-//        if (changeTelevision.isEmpty()){
-//             throw new RecordNotFoundException("No television found with id" + id);
-//
-//        }
-//        else {
-//            Television changeTelevision1 = changeTelevision.get();
-//            changeTelevision1.setType(television.getType());
-//            changeTelevision1.setBrand(television.getBrand());
-//            changeTelevision1.setName(television.getName());
-//            changeTelevision1.setPrice(television.getPrice());
-//            changeTelevision1.setAvailableSize(television.getAvailableSize());
-//            changeTelevision1.setRefreshRate(television.getRefreshRate());
-//            changeTelevision1.setScreenType(television.getScreenType());
-//            changeTelevision1.setScreenType(television.getScreenType());
-//            changeTelevision1.setSmartTv(television.getSmartTv());
-//            changeTelevision1.setWifi(television.getWifi());
-//            changeTelevision1.setVoiceControl(television.getVoiceControl());
-//            changeTelevision1.setHdr(television.getHdr());
-//            changeTelevision1.setBluetooth(television.getBluetooth());
-//            changeTelevision1.setAmbiLight(television.getAmbiLight());
-//            changeTelevision1.setOriginalStock(television.getOriginalStock());
-//            changeTelevision1.setSold(television.getSold());
-//            changeTelevision1.setSaleDate(television.getSaleDate());
-//            changeTelevision1.setPurchaseDate(television.getPurchaseDate());
-//            // sla de gewijzigde data op:
-//            Television savedTelevision = televisionRepository.save(changeTelevision1);
-//
-//            return ResponseEntity.ok().body(changeTelevision);
-//        }
-//
-//    }
-//
+    @PutMapping("televisions/{id}")
+    public ResponseEntity<TelevisionDto> changeTelevision(@PathVariable long id, @RequestBody Television television ) {
+        TelevisionDto changeTelevisionId = televisionService.updateTelevision(id, television);
 
-
+        return ResponseEntity.ok().body(changeTelevisionId);
+    }
 }
