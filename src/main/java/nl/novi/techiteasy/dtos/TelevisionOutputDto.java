@@ -1,9 +1,8 @@
 package nl.novi.techiteasy.dtos;
 
 import java.time.LocalDate;
-//import jakarta.validation.constraints.*;
 
-public class TelevisionInputDto {
+public class TelevisionOutputDto {
 
     public long id;
     public String type;
@@ -26,6 +25,7 @@ public class TelevisionInputDto {
     public LocalDate saleDate;
     public LocalDate purchaseDate;
     public String getType;
+
     public long getId() {
         return id;
     }

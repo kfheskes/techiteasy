@@ -2,10 +2,10 @@ package nl.novi.techiteasy.service;
 
 import nl.novi.techiteasy.dtos.TelevisionDto;
 import nl.novi.techiteasy.dtos.TelevisionInputDto;
+import nl.novi.techiteasy.dtos.TelevisionOutputDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.repositories.TelevisionRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,9 +20,6 @@ private final TelevisionRepository repos;
     public TelevisionService(TelevisionRepository repos) {
         this.repos = repos;
     }
-// achter public geeft aan dat er een object van het type TelevisionDto zal retouneren.
-    // (TelevisonDto createTelvisonDto) is een parameterlijst van de methode. het geeft aan dat de methode een parameter verwacht van het type TelevisonDto en deze parmeter wordt beinnen de methode aangeduid als 'createTelevisonDto'
-
 
     // onderstaande haalt data(television) uit de database models Television via de service naar de gebruiker TelevisionDto
     // List<TelevisionDto> wordt gebruikt om geconverteerde DTO-objecten op te slaan voordat ze geroutineerd worden
@@ -38,9 +35,12 @@ private final TelevisionRepository repos;
         }
             return televisionDtoList;
     }
+    //public TelevisionDto createTelevision(TelevisionInputDto createTelevisionDto) {: Dit definieert een methode met de naam createTelevision die een object van het type TelevisionInputDto accepteert als invoerparameter en een object van het type TelevisionDto retourneert.
+    //
     public TelevisionDto createTelevision(TelevisionInputDto createTelevisionDto) {
-        TelevisionDto television = dtoTransferToTelevision(createTelevisionDto);
-        return television;
+        Television tvInputDto = dtoTransferToTelevision(createTelevisionDto);
+        repos.save(tvInputDto);
+        return convertTelevisionToTelevisionDto(tvInputDto);
     }
 
     // onderstaande methode neemt een object van het model Television en convert het naar een DTO van het type TeacherDto
@@ -71,28 +71,29 @@ private final TelevisionRepository repos;
         return televisionDto;
     }
 
-    public TelevisionInputDto dtoTransferToTelevision(TelevisionInputDto dto){
-        Television television = new Television();
+    public Television dtoTransferToTelevision(TelevisionInputDto dto){
+        var television = new Television();
 
-        television.setType(dto.type);
-        television.setBrand(dto.brand);
-        television.setName(dto.name);
-        television.setPrice(dto.price);
-        television.setAvailableSize(dto.availableSize);
-        television.setRefreshRate(dto.refreshRate);
-        television.setScreenType(dto.screenType);
-        television.setScreenQuality(dto.screenQuality);
-        television.setSmartTv(dto.smartTv);
-        television.setWifi(dto.wifi);
-        television.setVoiceControl(dto.voiceControl);
-        television.setHdr(dto.hdr);
-        television.setBluetooth(dto.bluetooth);
-        television.setAmbiLight(dto.ambiLight);
-        television.setOriginalStock(dto.originalStock);
-        television.setSold(dto.sold);
-        repos.save(television);
-        dto.id = television.getId();
-        return dto;
+        television.setType(dto.getType());
+        television.setBrand(dto.getBrand());
+        television.setName(dto.getName());
+        television.setPrice(dto.getPrice());
+        television.setAvailableSize(dto.getAvailableSize());
+        television.setRefreshRate(dto.getRefreshRate());
+        television.setScreenType(dto.getScreenType());
+        television.setScreenQuality(dto.getScreenQuality());
+        television.setSmartTv(dto.getSmartTv());
+        television.setWifi(dto.getWifi());
+        television.setVoiceControl(dto.getVoiceControl());
+        television.setHdr(dto.getHdr());
+        television.setBluetooth(dto.getBluetooth());
+        television.setAmbiLight(dto.getAmbiLight());
+        television.setOriginalStock(dto.getOriginalStock());
+        television.setSold(dto.getSold());
+        television.setSaleDate(dto.getSaleDate());
+        television.setPurchaseDate(dto.getPurchaseDate());
+
+        return television;
     }
 
     public TelevisionDto getTelevisionId(long id) {

@@ -1,6 +1,7 @@
 package nl.novi.techiteasy.controllers;
 
 import nl.novi.techiteasy.dtos.TelevisionDto;
+import nl.novi.techiteasy.dtos.TelevisionInputDto;
 import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.service.TelevisionService;
 import org.springframework.http.ResponseEntity;
@@ -40,8 +41,8 @@ public class TelevisionsController {
 
     // is om data erin te zetten(posten)
     @PostMapping("/televisions")
-    public ResponseEntity<TelevisionDto> addTelevision(@RequestBody TelevisionDto televisionDto){
-    TelevisionDto savedTelevision = televisionService.createTelevision(televisionDto);
+    public ResponseEntity<TelevisionDto> addTelevision(@RequestBody TelevisionInputDto televisionInputDto){
+    TelevisionDto savedTelevision = televisionService.createTelevision(televisionInputDto);
         URI uri = URI.create(
                 ServletUriComponentsBuilder
                         .fromCurrentRequest()
