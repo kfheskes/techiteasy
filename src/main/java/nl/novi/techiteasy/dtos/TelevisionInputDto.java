@@ -1,15 +1,21 @@
 package nl.novi.techiteasy.dtos;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Positive;
+
 import java.time.LocalDate;
-//import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 public class TelevisionInputDto {
 
-    public long id;
-    public String type;
+    @NotNull(message = "Type is required")
+   public String type;
     public String brand;
-
+    @Size (max = 20, message = "name must be less than 20 characters")
     public String name;
+    @Positive(message = "Price has to be more than 0")
     public Double price;
     public Double availableSize;
     public Double refreshRate;
@@ -23,16 +29,11 @@ public class TelevisionInputDto {
     public Boolean ambiLight;
     public Integer originalStock;
     public Integer sold;
+    @Past
     public LocalDate saleDate;
     public LocalDate purchaseDate;
-    public String getType;
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+
 
     public String getType() {
         return type;
@@ -178,13 +179,6 @@ public class TelevisionInputDto {
         this.purchaseDate = purchaseDate;
     }
 
-    public String getGetType() {
-        return getType;
-    }
-
-    public void setGetType(String getType) {
-        this.getType = getType;
-    }
 
 
 }
