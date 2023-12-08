@@ -1,9 +1,11 @@
 package nl.novi.techiteasy.controllers;
 
+import nl.novi.techiteasy.dtos.IdInputDto;
 import nl.novi.techiteasy.dtos.television.TelevisionDto;
 import nl.novi.techiteasy.dtos.television.TelevisionInputDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy.exceptions.ValidationException;
+import nl.novi.techiteasy.models.RemoteController;
 import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.service.TelevisionService;
 import org.springframework.http.ResponseEntity;
@@ -73,4 +75,11 @@ public class TelevisionsController {
 
         return ResponseEntity.ok().body(changeTelevisionId);
     }
+
+    @PutMapping("/{id}/remotecontroller")
+    public ResponseEntity<TelevisionDto> assignRemoteControllerToTelevision(@PathVariable long id, @RequestBody IdInputDto input) {
+        televisionService.assignRemoteControllerToTelevision(id, input.id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

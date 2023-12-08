@@ -3,7 +3,9 @@ package nl.novi.techiteasy.service;
 import nl.novi.techiteasy.dtos.television.TelevisionDto;
 import nl.novi.techiteasy.dtos.television.TelevisionInputDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
+import nl.novi.techiteasy.models.RemoteController;
 import nl.novi.techiteasy.models.Television;
+import nl.novi.techiteasy.repositories.RemoteControllerRepository;
 import nl.novi.techiteasy.repositories.TelevisionRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +17,11 @@ import java.util.Optional;
 public class TelevisionService {
 
 private final TelevisionRepository repos;
+private final RemoteControllerRepository remoteControllerRepos;
 
-    public TelevisionService(TelevisionRepository repos) {
+    public TelevisionService(TelevisionRepository repos, RemoteControllerRepository remoteControllerRepos) {
         this.repos = repos;
+        this.remoteControllerRepos = remoteControllerRepos;
     }
 
     // onderstaande haalt data(television) uit de database models Television via de service naar de gebruiker TelevisionDto
@@ -153,5 +157,27 @@ private final TelevisionRepository repos;
             return convertTelevisionToTelevisionDto (returnTelevision);
         }
         }
+
+    // Deze methode wijst een afstandsbediening toe aan een televisie op basis van de opgegeven ID's.
+    public void assignRemoteControllerToTelevision(long televisionId, Long remoteControllerId) {
+        // Optioneel ophalen van de televisie op basis van de gegeven ID.
+        Optional<Television> optionalTelevision = repos.findById(televisionId);
+        // Optioneel ophalen van de afstandsbediening op basis van de gegeven ID.
+        Optional<RemoteController> optionalRemoteController = remoteControllerRepos.findById(remoteControllerId);
+        // Controleer of zowel de televisie als de afstandsbediening zijn gevonden.
+        if (optionalTelevision.isPresent() && optionalRemoteController.isPresent()) {
+            // Haal de daadwerkelijke objecten op uit de optionele objecten.
+            Television television = optionalTelevision.get();
+            RemoteController remoteController = optionalRemoteController.get();
+            // Wijs de afstandsbediening toe aan de televisie. door de methode 'setRemoteConroller' aan te roepen van het object 'Television'met als argument 'remoteController'
+            television.setRemoteController(remoteController);
+            // Sla de gewijzigde televisie op in de repository.
+            repos.save(television);
+        } else {
+            // Gooi een RecordNotFoundException als een van beide objecten niet is gevonden.
+            throw new RecordNotFoundException("No television found with id");
+        }
+    }
+
 
 }
