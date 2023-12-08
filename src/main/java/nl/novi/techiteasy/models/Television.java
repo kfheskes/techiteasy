@@ -1,13 +1,13 @@
 package nl.novi.techiteasy.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,6 +37,19 @@ public class Television {
 
    private LocalDate saleDate;
    private LocalDate purchaseDate;
+
+   @OneToOne
+   private RemoteController remoteController;
+   @ManyToOne(fetch= FetchType.EAGER )
+   private CIModule CIModule;
+
+   @ManyToMany(fetch = FetchType.EAGER)
+   @JoinTable(name = "televisions_wallBrackets", joinColumns = @JoinColumn(name = "wallBrackets_id"),
+           inverseJoinColumns = @JoinColumn(name = "television_id")
+   )
+
+
+   private Set<WallBracket> wallBrackets = new HashSet<>();
 
    public Television(){}
 

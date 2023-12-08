@@ -1,9 +1,8 @@
 package nl.novi.techiteasy.controllers;
 
-import nl.novi.techiteasy.dtos.TelevisionDto;
-import nl.novi.techiteasy.dtos.TelevisionInputDto;
+import nl.novi.techiteasy.dtos.television.TelevisionDto;
+import nl.novi.techiteasy.dtos.television.TelevisionInputDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
-import nl.novi.techiteasy.exceptions.TelevisionNameTooLongException;
 import nl.novi.techiteasy.exceptions.ValidationException;
 import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.service.TelevisionService;
@@ -18,6 +17,7 @@ import java.util.List;
 
 import static nl.novi.techiteasy.controllers.ControllerHelper.checkForBindingResult;
 
+@RequestMapping("/televisions")
 @RestController
 public class TelevisionsController {
 
@@ -28,12 +28,12 @@ public class TelevisionsController {
         this.televisionService = televisionService;
     }
 
-    @GetMapping("/televisions")
+    @GetMapping
     public ResponseEntity<List<TelevisionDto>> getAllTelevisions(){
         return ResponseEntity.ok(televisionService.getAllTelevision());
     }
 
-    @GetMapping("/televisions/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<TelevisionDto> getTelevision(@PathVariable long id){
        if (id > 0) {
            TelevisionDto televisionDto = televisionService.getTelevisionId(id);
@@ -43,7 +43,7 @@ public class TelevisionsController {
        }
     }
 
-    @DeleteMapping("/televisions/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Television> deleteTelevision(@PathVariable long id){
 
             televisionService.deleteTelevision(id);
@@ -52,7 +52,7 @@ public class TelevisionsController {
     }
 
     // is om data erin te zetten(posten)
-    @PostMapping("/televisions")
+    @PostMapping
     public ResponseEntity<TelevisionDto> addTelevision(@RequestBody TelevisionInputDto televisionInputDto, BindingResult br){
     if (br.hasFieldErrors()) {
         throw new ValidationException(checkForBindingResult(br));
@@ -67,7 +67,7 @@ public class TelevisionsController {
     }
 
     //Put is om te bewerken
-    @PutMapping("televisions/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TelevisionDto> changeTelevision(@PathVariable long id, @RequestBody Television television ) {
         TelevisionDto changeTelevisionId = televisionService.updateTelevision(id, television);
 
