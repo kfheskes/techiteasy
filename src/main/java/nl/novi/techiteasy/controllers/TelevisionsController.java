@@ -31,11 +31,17 @@ public class TelevisionsController {
     }
 
     @GetMapping
+    // geeft aan dat deze methode een ResponsEntity teruggeeft die een lijst van TelevisionDto bevat
+    // getAllTelevisions is de methode van TelevisionService die een lijst teruggeeft van TelevisionDto
     public ResponseEntity<List<TelevisionDto>> getAllTelevisions(){
+        //creert een HTTP200 ok-response met de lijst van TelevisionDto als body
         return ResponseEntity.ok(televisionService.getAllTelevision());
     }
 
+    // geeft aan dat deze methode reageert op HTTP GET verzoek op de aangegeven URI met de padvariable "id"
     @GetMapping("/{id}")
+    // geeft methode een ResponseEntity terug die een TelevisionDto bevat
+    // de methoede roep getTelevision(id)
     public ResponseEntity<TelevisionDto> getTelevision(@PathVariable long id){
        if (id > 0) {
            TelevisionDto televisionDto = televisionService.getTelevisionId(id);
@@ -47,8 +53,9 @@ public class TelevisionsController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Television> deleteTelevision(@PathVariable long id){
-
+            // roept de methode om television te verwijderen op basis van id
             televisionService.deleteTelevision(id);
+            // creert een HTTP 204 No-Content-response omdat de succesvolle verwijdering geen inhoud teruggeeft.
             return ResponseEntity.noContent().build();
 
     }

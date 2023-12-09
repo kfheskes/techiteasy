@@ -2,17 +2,20 @@ package nl.novi.techiteasy.service;
 
 import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerDto;
 import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerInputDto;
+import nl.novi.techiteasy.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy.models.RemoteController;
+import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.repositories.RemoteControllerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RemoteControllerService {
 
-    private RemoteControllerRepository remoteControllerRepos;
+    private final RemoteControllerRepository remoteControllerRepos;
 
     public RemoteControllerService(RemoteControllerRepository remoteControllerRepos){
         this.remoteControllerRepos = remoteControllerRepos;
@@ -25,12 +28,6 @@ public class RemoteControllerService {
             remoteControllerDtoList.add(convertRemoteControllerToRemoteControllerDto(remoteController));
         }
         return remoteControllerDtoList;
-    }
-
-    public RemoteControllerDto createRemoteController(RemoteControllerInputDto createRemoteController){
-        RemoteController remoteControllerInputDto = dtoTransferToRemoteController(createRemoteController);
-        remoteControllerRepos.save(remoteControllerInputDto);
-        return convertRemoteControllerToRemoteControllerDto(remoteControllerInputDto);
     }
 
     public RemoteControllerDto convertRemoteControllerToRemoteControllerDto (RemoteController remoteController){
@@ -46,6 +43,23 @@ public class RemoteControllerService {
         return remoteControllerDto;
     }
 
+    public RemoteControllerDto getRemoteControllerId (long id) {
+        Optional<RemoteController> remoteControllerId = remoteControllerRepos.findById(id);
+        if (remoteControllerId.isPresent()){
+            RemoteController rc = remoteControllerId.get();
+            return convertRemoteControllerToRemoteControllerDto(rc);
+        } else {
+            throw new RecordNotFoundException("No remote controller id found");
+        }
+    }
+
+    public RemoteControllerDto createRemoteController(RemoteControllerInputDto createRemoteControllerDto){
+        RemoteController remoteControllerInputDto = dtoTransferToRemoteController(createRemoteControllerDto);
+        remoteControllerRepos.save(remoteControllerInputDto);
+        return convertRemoteControllerToRemoteControllerDto(remoteControllerInputDto);
+    }
+
+
     public RemoteController dtoTransferToRemoteController(RemoteControllerInputDto dto) {
         var remoteController = new RemoteController();
         remoteController.setCompatibleWith(dto.getCompatibleWith());
@@ -56,6 +70,29 @@ public class RemoteControllerService {
         remoteController.setOriginalStock(dto.getOriginalStock());
 
         return remoteController;
+    }
+
+    public RemoteControllerDto updateRC(long id, RemoteController remoteController){
+        Optional<RemoteController> getRC = remoteControllerRepos.findById(id);
+        if (getRC.isEmpty()){
+            throw new RecordNotFoundException("No remote controller found with id");
+        } else {
+            RemoteController changeRC = getRC.get();
+            changeRC.setCompatibleWith(remoteController.getCompatibleWith());
+            changeRC.setBatteryType(remoteController.getBatteryType());
+            changeRC.setName(remoteController.getName());
+            changeRC.setBrand(remoteController.getBrand());
+            changeRC.setPrice(remoteController.getPrice());
+            changeRC.setOriginalStock(remoteController.getOriginalStock());
+
+            RemoteController returnRC = remoteControllerRepos.save(changeRC);
+            return convertRemoteControllerToRemoteControllerDto(returnRC);
+        }
+    }
+
+
+    public void deleteRC(long id) {
+        remoteControllerRepos.deleteById(id);
     }
 
 }

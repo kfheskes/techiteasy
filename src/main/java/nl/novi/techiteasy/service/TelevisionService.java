@@ -19,9 +19,12 @@ public class TelevisionService {
 private final TelevisionRepository repos;
 private final RemoteControllerRepository remoteControllerRepos;
 
-    public TelevisionService(TelevisionRepository repos, RemoteControllerRepository remoteControllerRepos) {
+private final RemoteControllerService remoteControllerService;
+
+    public TelevisionService(TelevisionRepository repos, RemoteControllerRepository remoteControllerRepos, RemoteControllerService remoteControllerService) {
         this.repos = repos;
         this.remoteControllerRepos = remoteControllerRepos;
+        this.remoteControllerService = remoteControllerService;
     }
 
     // onderstaande haalt data(television) uit de database models Television via de service naar de gebruiker TelevisionDto
@@ -38,10 +41,10 @@ private final RemoteControllerRepository remoteControllerRepos;
         }
             return televisionDtoList;
     }
-    //public TelevisionDto createTelevision(TelevisionInputDto createTelevisionDto) {: Dit definieert een methode met de naam createTelevision die een object van het type TelevisionInputDto accepteert als invoerparameter en een object van het type TelevisionDto retourneert.
+    //public TelevisionDto createTelevision(TelevisionInputDto createTelevisionInputDto) {: Dit definieert een methode met de naam createTelevision die een object van het type TelevisionInputDto accepteert als invoerparameter en een object van het type TelevisionDto retourneert.
     //
-    public TelevisionDto createTelevision(TelevisionInputDto createTelevisionDto) {
-        Television tvInputDto = dtoTransferToTelevision(createTelevisionDto);
+    public TelevisionDto createTelevision(TelevisionInputDto createTelevisionInputDto) {
+        Television tvInputDto = dtoTransferToTelevision(createTelevisionInputDto);
         repos.save(tvInputDto);
         return convertTelevisionToTelevisionDto(tvInputDto);
     }
@@ -100,7 +103,7 @@ private final RemoteControllerRepository remoteControllerRepos;
     }
 
     public TelevisionDto getTelevisionId(long id) {
-        // De methode findById zoekt naar een televisie in de repository op basis van het opgegeven id.
+        // De methode findById zoekt naar een televisie in de repository(model) op basis van het opgegeven id.
         // Het resultaat wordt verpakt in een Optional omdat het resultaat mogelijk leeg kan zijn.
         Optional<Television> televisionId = repos.findById(id);
         // Controleer of er een televisie is gevonden op basis van het opgegeven id.
@@ -125,6 +128,8 @@ private final RemoteControllerRepository remoteControllerRepos;
     }
 
     // geeft TelevisonDto aan omdat je ook de gegevens wilt presenteren aan een externe laag.
+    // long id: is id van de televisie die moet worden bijgewerkt. Het wordt gebruikt om de juiste televisie in de database te lokaliseren. Het ID is een unieke waarde die elk televisieobject identificeert.
+    //Television television: Dit is het televisieobject met bijgewerkte gegevens. In de methode wordt dit object gebruikt om de bestaande televisiegegevens bij te werken. De velden van dit object bevatten de nieuwe waarden die moeten worden ingesteld voor het bijbehorende televisie-ID.
         public TelevisionDto updateTelevision(long id, Television television){
         // haalt het televisieobject op uit repos op basis van id het resultaat wordt in een optinal geweikkeld omdat het ook leeg kan zijn.
         Optional<Television> getTelevision = repos.findById(id);
