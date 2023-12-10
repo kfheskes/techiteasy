@@ -49,6 +49,22 @@ private final RemoteControllerService remoteControllerService;
         return convertTelevisionToTelevisionDto(tvInputDto);
     }
 
+    public List<TelevisionDto> transferTvListToDtoList(List<Television> televisions) {
+        List<TelevisionDto> tvDtoList = new ArrayList<>();
+
+        for (Television tv : televisions) {
+            TelevisionDto dto = convertTelevisionToTelevisionDto(tv);
+
+            if (tv.getRemoteController() != null) {
+                dto.setRemoteController(remoteControllerService.convertRemoteControllerToRemoteControllerDto(tv.getRemoteController()));
+            }
+            tvDtoList.add(dto);
+        }
+
+        return tvDtoList;
+    }
+
+
     // onderstaande methode neemt een object van het model Television en convert het naar een DTO van het type TeacherDto
     // television is een parameter om Television aan te spreken en de data daar uit te halen.
     public TelevisionDto convertTelevisionToTelevisionDto(Television television) {
@@ -180,7 +196,7 @@ private final RemoteControllerService remoteControllerService;
             repos.save(television);
         } else {
             // Gooi een RecordNotFoundException als een van beide objecten niet is gevonden.
-            throw new RecordNotFoundException("No television found with id");
+            throw new RecordNotFoundException("No television found with id " + televisionId);
         }
     }
 

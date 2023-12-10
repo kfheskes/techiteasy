@@ -3,7 +3,7 @@ package nl.novi.techiteasy.dtos.television;
 
 
 import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerDto;
-import nl.novi.techiteasy.models.RemoteController;
+
 
 import java.time.LocalDate;
 
@@ -33,7 +33,16 @@ public class TelevisionDto {
     public LocalDate saleDate;
     public LocalDate purchaseDate;
 
+    public RemoteControllerDto getRemoteController() {
+        return remoteController;
+    }
+
+    public void setRemoteController(RemoteControllerDto remoteController) {
+        this.remoteController = remoteController;
+    }
+
     public RemoteControllerDto remoteController;
+
 
 
 }
