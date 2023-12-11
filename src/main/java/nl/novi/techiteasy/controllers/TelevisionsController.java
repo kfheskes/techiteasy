@@ -35,7 +35,7 @@ public class TelevisionsController {
     // getAllTelevisions is de methode van TelevisionService die een lijst teruggeeft van TelevisionDto
     public ResponseEntity<List<TelevisionDto>> getAllTelevisions(){
         //creert een HTTP200 ok-response met de lijst van TelevisionDto als body
-        return ResponseEntity.ok(televisionService.getAllTelevision());
+        return ResponseEntity.ok(televisionService.getAllTelevisions());
     }
 
     // geeft aan dat deze methode reageert op HTTP GET verzoek op de aangegeven URI met de padvariable "id"

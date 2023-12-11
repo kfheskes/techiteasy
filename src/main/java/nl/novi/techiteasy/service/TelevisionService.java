@@ -1,5 +1,6 @@
 package nl.novi.techiteasy.service;
 
+import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerDto;
 import nl.novi.techiteasy.dtos.television.TelevisionDto;
 import nl.novi.techiteasy.dtos.television.TelevisionInputDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
@@ -29,7 +30,7 @@ private final RemoteControllerService remoteControllerService;
 
     // onderstaande haalt data(television) uit de database models Television via de service naar de gebruiker TelevisionDto
     // List<TelevisionDto> wordt gebruikt om geconverteerde DTO-objecten op te slaan voordat ze geroutineerd worden
-    public List<TelevisionDto> getAllTelevision (){
+    public List<TelevisionDto> getAllTelevisions (){
         List<Television> televisionList = repos.findAll();
         List<TelevisionDto> televisionDtoList = new ArrayList<>();
         // for-each lus doorloopt elke element van Television object en stop het in televisionList(collectie van Television objecten) elke element wordt van televisionList wordt toegewezen aan television.
@@ -49,20 +50,22 @@ private final RemoteControllerService remoteControllerService;
         return convertTelevisionToTelevisionDto(tvInputDto);
     }
 
-    public List<TelevisionDto> transferTvListToDtoList(List<Television> televisions) {
-        List<TelevisionDto> tvDtoList = new ArrayList<>();
 
-        for (Television tv : televisions) {
-            TelevisionDto dto = convertTelevisionToTelevisionDto(tv);
 
-            if (tv.getRemoteController() != null) {
-                dto.setRemoteController(remoteControllerService.convertRemoteControllerToRemoteControllerDto(tv.getRemoteController()));
-            }
-            tvDtoList.add(dto);
-        }
-
-        return tvDtoList;
-    }
+//    public List<TelevisionDto> transferTvListToDtoList(List<Television> televisions) {
+//        List<TelevisionDto> tvDtoList = new ArrayList<>();
+//
+//        for (Television tv : televisions) {
+//            TelevisionDto dto = convertTelevisionToTelevisionDto(tv);
+//
+//            if (tv.getRemoteController() != null) {
+//                dto.setRemoteController(remoteControllerService.convertRemoteControllerToRemoteControllerDto(tv.getRemoteController()));
+//            }
+//            tvDtoList.add(dto);
+//        }
+//
+//        return tvDtoList;
+//    }
 
 
     // onderstaande methode neemt een object van het model Television en convert het naar een DTO van het type TeacherDto
@@ -90,6 +93,18 @@ private final RemoteControllerService remoteControllerService;
         televisionDto.saleDate = (television.getSaleDate());
         televisionDto.purchaseDate = (television.getPurchaseDate());
 
+        if(television.getRemoteController() != null){
+            RemoteController remoteController = television.getRemoteController();
+            RemoteControllerDto remoteControllerDto = new RemoteControllerDto();
+            remoteControllerDto.id = remoteController.getId();
+            remoteControllerDto.brand = remoteController.getBrand();
+            remoteControllerDto.name = remoteController.getName();
+            remoteControllerDto.price = remoteController.getPrice();
+            remoteControllerDto.originalStock = remoteController.getOriginalStock();
+            remoteControllerDto.batteryType = remoteController.getBatteryType();
+            remoteControllerDto.compatibleWith = remoteController.getCompatibleWith();
+            televisionDto.remoteControllerDto = remoteControllerDto;
+        }
         return televisionDto;
     }
 
@@ -126,9 +141,22 @@ private final RemoteControllerService remoteControllerService;
         if (televisionId.isPresent()) {
             // Als er een televisie is gevonden, krijgen we het Television-object uit de Optional.
             Television tv = televisionId.get();
+            TelevisionDto dto = convertTelevisionToTelevisionDto(tv);
+            if (tv.getRemoteController() != null){
+                RemoteController remoteController = tv.getRemoteController();
+                RemoteControllerDto remoteControllerDto = new RemoteControllerDto();
+                remoteControllerDto.id = remoteController.getId();
+                remoteControllerDto.brand = remoteController.getBrand();
+                remoteControllerDto.name = remoteController.getName();
+                remoteControllerDto.price = remoteController.getPrice();
+                remoteControllerDto.originalStock = remoteController.getOriginalStock();
+                remoteControllerDto.batteryType = remoteController.getBatteryType();
+                remoteControllerDto.compatibleWith = remoteController.getCompatibleWith();
+                dto.remoteControllerDto = remoteControllerDto;
+            }
             // Nu roepen we de methode convertTelevisionToTelevisionDto aan om het Television-object
             // om te zetten naar een TelevisionDto-object voordat het wordt geretourneerd.
-            return convertTelevisionToTelevisionDto(tv);
+            return dto;
         } else {
             // Als er geen televisie is gevonden, wordt een RecordNotFoundException gegooid.
             // Dit is een aangepaste uitzondering die wordt gebruikt om aan te geven dat er geen record is gevonden.
