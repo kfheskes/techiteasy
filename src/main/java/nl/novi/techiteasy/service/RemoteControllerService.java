@@ -22,8 +22,8 @@ public class RemoteControllerService {
     }
 
     public List<RemoteControllerDto> getAllRemoteControllers(){
-        List<RemoteController> remoteControllerList = remoteControllerRepos.findAll();
         List<RemoteControllerDto> remoteControllerDtoList = new ArrayList<>();
+        List<RemoteController> remoteControllerList = remoteControllerRepos.findAll();
         for (RemoteController remoteController : remoteControllerList) {
             remoteControllerDtoList.add(convertRemoteControllerToRemoteControllerDto(remoteController));
         }

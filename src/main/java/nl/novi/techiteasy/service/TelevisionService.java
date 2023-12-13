@@ -142,18 +142,7 @@ private final RemoteControllerService remoteControllerService;
             // Als er een televisie is gevonden, krijgen we het Television-object uit de Optional.
             Television tv = televisionId.get();
             TelevisionDto dto = convertTelevisionToTelevisionDto(tv);
-            if (tv.getRemoteController() != null){
-                RemoteController remoteController = tv.getRemoteController();
-                RemoteControllerDto remoteControllerDto = new RemoteControllerDto();
-                remoteControllerDto.id = remoteController.getId();
-                remoteControllerDto.brand = remoteController.getBrand();
-                remoteControllerDto.name = remoteController.getName();
-                remoteControllerDto.price = remoteController.getPrice();
-                remoteControllerDto.originalStock = remoteController.getOriginalStock();
-                remoteControllerDto.batteryType = remoteController.getBatteryType();
-                remoteControllerDto.compatibleWith = remoteController.getCompatibleWith();
-                dto.remoteControllerDto = remoteControllerDto;
-            }
+
             // Nu roepen we de methode convertTelevisionToTelevisionDto aan om het Television-object
             // om te zetten naar een TelevisionDto-object voordat het wordt geretourneerd.
             return dto;
