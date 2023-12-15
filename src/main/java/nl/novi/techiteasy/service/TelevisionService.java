@@ -93,19 +93,12 @@ private final RemoteControllerService remoteControllerService;
         televisionDto.saleDate = (television.getSaleDate());
         televisionDto.purchaseDate = (television.getPurchaseDate());
 
-        if(television.getRemoteController() != null){
-            RemoteController remoteController = television.getRemoteController();
-            RemoteControllerDto remoteControllerDto = new RemoteControllerDto();
-            remoteControllerDto.id = remoteController.getId();
-            remoteControllerDto.brand = remoteController.getBrand();
-            remoteControllerDto.name = remoteController.getName();
-            remoteControllerDto.price = remoteController.getPrice();
-            remoteControllerDto.originalStock = remoteController.getOriginalStock();
-            remoteControllerDto.batteryType = remoteController.getBatteryType();
-            remoteControllerDto.compatibleWith = remoteController.getCompatibleWith();
-            televisionDto.remoteControllerDto = remoteControllerDto;
+
+        if (television.getRemoteController() != null) {
+            televisionDto.setRemoteControllerDto(remoteControllerService.convertRemoteControllerToRemoteControllerDto(television.getRemoteController()));
         }
         return televisionDto;
+
     }
 
     public Television dtoTransferToTelevision(TelevisionInputDto dto){
@@ -218,4 +211,58 @@ private final RemoteControllerService remoteControllerService;
     }
 
 
-}
+//    public TelevisionDto transferToDto(Television television) {
+//        TelevisionDto dto = new TelevisionDto();
+//
+//        dto.setId(television.getId());
+//        dto.setAmbiLight(television.getAmbiLight());
+//        dto.setAvailableSize(television.getAvailableSize());
+//        dto.setBluetooth(television.getBluetooth());
+//        dto.setBrand(television.getBrand());
+//        dto.setHdr(television.getHdr());
+//        dto.setName(television.getName());
+//        dto.setOriginalStock(television.getOriginalStock());
+//        dto.setPrice(television.getPrice());
+//        dto.setRefreshRate(television.getRefreshRate());
+//        dto.setScreenQuality(television.getScreenQuality());
+//        dto.setScreenType(television.getScreenType());
+//        dto.setSmartTv(television.getSmartTv());
+//        dto.setSold(television.getSold());
+//        dto.setType(television.getType());
+//        dto.setVoiceControl(television.getVoiceControl());
+//        dto.setWifi(television.getWifi());
+//
+//        if (television.getRemoteController() != null) {
+//            dto.setRemoteController(remoteControllerService.transferToDto(television.getRemoteController()));
+//        }
+//
+//        if (television.getCiModule() != null) {
+//            dto.setCiModule(ciModuleService.transferToDto(television.getCiModule()));
+//        }
+//
+//        if (television.getWallBrackets() != null) {
+//            Set<WallBracketDto> wallBracketDtos = new HashSet<>();
+//            for (WallBracket wallBracket : television.getWallBrackets()) {
+//                wallBracketDtos.add(wallBracketService.transferToDto(wallBracket));
+//            }
+//            dto.setWallBracket(wallBracketDtos);
+//        }
+//
+//        return dto;
+
+    //        if(television.getRemoteController() != null){
+//            RemoteController remoteController = television.getRemoteController();
+//            RemoteControllerDto remoteControllerDto = new RemoteControllerDto();
+//            remoteControllerDto.id = remoteController.getId();
+//            remoteControllerDto.brand = remoteController.getBrand();
+//            remoteControllerDto.name = remoteController.getName();
+//            remoteControllerDto.price = remoteController.getPrice();
+//            remoteControllerDto.originalStock = remoteController.getOriginalStock();
+//            remoteControllerDto.batteryType = remoteController.getBatteryType();
+//            remoteControllerDto.compatibleWith = remoteController.getCompatibleWith();
+//            televisionDto.remoteControllerDto = remoteControllerDto;
+    }
+
+
+
+

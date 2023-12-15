@@ -35,6 +35,9 @@ public class TelevisionDto {
     public LocalDate purchaseDate;
     public RemoteControllerDto remoteControllerDto;
 
+    public void setRemoteControllerDto(RemoteControllerDto remoteControllerDto) {
+        this.remoteControllerDto = remoteControllerDto;
+    }
 
 
 }
