@@ -20,22 +20,23 @@ private final CIModuleRepository CIModuleRepos;
         CIModuleRepos = ciModuleRepos;
     }
 
-    public CIModule dtoTransferToCIModule(CIModuleInputDto CIModuleInputDto){
+    public CIModule dtoTransferToCIModule(CIModuleInputDto ciModuleInputDto){
         CIModule CIModule = new CIModule();
 
-        CIModule.setName(CIModuleInputDto.getName());
-        CIModule.setType(CIModuleInputDto.getType());
-        CIModule.setPrice(CIModuleInputDto.getPrice());
+        CIModule.setName(ciModuleInputDto.getName());
+        CIModule.setType(ciModuleInputDto.getType());
+        CIModule.setPrice(ciModuleInputDto.getPrice());
 
         return CIModule;
     }
-
-    public CIModuleDto CIModuleTransferToCIModuleDto(CIModule CIModule){
+// TODO CIModule aanpassen naar parameteren cimodule (parameter) aanpassen
+    public CIModuleDto CIModuleTransferToCIModuleDto(CIModule cimodule){
         CIModuleDto CIModuleDto = new CIModuleDto();
 
-        CIModuleDto.name = CIModule.getName();
-        CIModuleDto.type = CIModule.getType();
-        CIModuleDto.price = CIModule.getPrice();
+        CIModuleDto.id = cimodule.getId();
+        CIModuleDto.name = cimodule.getName();
+        CIModuleDto.type = cimodule.getType();
+        CIModuleDto.price = cimodule.getPrice();
 
         return CIModuleDto;
     }
@@ -57,7 +58,7 @@ private final CIModuleRepository CIModuleRepos;
             throw new RecordNotFoundException("No CIModule found with id ");
         }
     }
-    public List<CIModuleDto> getAllCIModules (){
+    public List<CIModuleDto> getAllCIModules(){
         List<CIModule> CIModuleList = CIModuleRepos.findAll();
         List<CIModuleDto> CIModuleListDto = new ArrayList<>();
 
