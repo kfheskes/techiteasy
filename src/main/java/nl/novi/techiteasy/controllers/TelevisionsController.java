@@ -1,5 +1,6 @@
 package nl.novi.techiteasy.controllers;
 
+import jakarta.validation.Valid;
 import nl.novi.techiteasy.dtos.IdInputDto;
 import nl.novi.techiteasy.dtos.television.TelevisionDto;
 import nl.novi.techiteasy.dtos.television.TelevisionInputDto;
@@ -62,7 +63,7 @@ public class TelevisionsController {
 
     // is om data erin te zetten(posten)
     @PostMapping
-    public ResponseEntity<TelevisionDto> addTelevision(@RequestBody TelevisionInputDto televisionInputDto, BindingResult br){
+    public ResponseEntity<TelevisionDto> addTelevision(@Valid @RequestBody TelevisionInputDto televisionInputDto, BindingResult br){
     if (br.hasFieldErrors()) {
         throw new ValidationException(checkForBindingResult(br));
     } else {
