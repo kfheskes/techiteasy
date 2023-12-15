@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 
 @Entity
-@Table(name = "Remote_Controller")
+@Table(name = "remote_controller")
 public class RemoteController {
 
     @Id

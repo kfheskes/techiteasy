@@ -4,7 +4,6 @@ import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerDto;
 import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerInputDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy.models.RemoteController;
-import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.repositories.RemoteControllerRepository;
 import org.springframework.stereotype.Service;
 

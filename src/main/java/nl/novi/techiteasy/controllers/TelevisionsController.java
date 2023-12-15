@@ -44,12 +44,8 @@ public class TelevisionsController {
     // geeft methode een ResponseEntity terug die een TelevisionDto bevat
     // de methoede roep getTelevision(id)
     public ResponseEntity<TelevisionDto> getTelevision(@PathVariable long id){
-       if (id > 0) {
            TelevisionDto televisionDto = televisionService.getTelevisionId(id);
            return ResponseEntity.ok(televisionDto);
-       } else {
-           throw new RecordNotFoundException("there is no television");
-       }
     }
 
     @DeleteMapping("/{id}")
@@ -58,12 +54,11 @@ public class TelevisionsController {
             televisionService.deleteTelevision(id);
             // creert een HTTP 204 No-Content-response omdat de succesvolle verwijdering geen inhoud teruggeeft.
             return ResponseEntity.noContent().build();
-
     }
 
     // is om data erin te zetten(posten)
     @PostMapping
-    public ResponseEntity<TelevisionDto> addTelevision(@Valid @RequestBody TelevisionInputDto televisionInputDto, BindingResult br){
+    public ResponseEntity<TelevisionDto> createTelevision(@Valid @RequestBody TelevisionInputDto televisionInputDto, BindingResult br){
     if (br.hasFieldErrors()) {
         throw new ValidationException(checkForBindingResult(br));
     } else {

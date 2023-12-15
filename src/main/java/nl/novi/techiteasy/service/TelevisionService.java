@@ -1,6 +1,5 @@
 package nl.novi.techiteasy.service;
 
-import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerDto;
 import nl.novi.techiteasy.dtos.television.TelevisionDto;
 import nl.novi.techiteasy.dtos.television.TelevisionInputDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
@@ -16,7 +15,7 @@ import java.util.Optional;
 
 @Service
 public class TelevisionService {
-
+//Repositories worden gebruikt om gegevens uit een database te halen, en services worden gebruikt om de bedrijfslogica van de applicatie te implementeren.
 private final TelevisionRepository repos;
 private final RemoteControllerRepository remoteControllerRepos;
 
@@ -42,8 +41,7 @@ private final RemoteControllerService remoteControllerService;
         }
             return televisionDtoList;
     }
-    //public TelevisionDto createTelevision(TelevisionInputDto createTelevisionInputDto) {: Dit definieert een methode met de naam createTelevision die een object van het type TelevisionInputDto accepteert als invoerparameter en een object van het type TelevisionDto retourneert.
-    //
+    //return waarde is TelevisionDto(outputDTO) de input voor deze methode is TelevisionInputDto. dan ga je het transformeren van een dto naar module Television. dit sla je op in de data base met de repos en dan return je he met behulp van de methode convertTelevisionToTelevisonDto
     public TelevisionDto createTelevision(TelevisionInputDto createTelevisionInputDto) {
         Television tvInputDto = dtoTransferToTelevision(createTelevisionInputDto);
         repos.save(tvInputDto);
@@ -93,8 +91,9 @@ private final RemoteControllerService remoteControllerService;
         televisionDto.saleDate = (television.getSaleDate());
         televisionDto.purchaseDate = (television.getPurchaseDate());
 
-
+// eerst controleert of het RemotController niet gelijk is aan null
         if (television.getRemoteController() != null) {
+//            remoteControllerService.convertRemoteControllerToRemoteControllerDto(television.getRemoteController()): Als de voorwaarde waar is, wordt deze lijn uitgevoerd. Het roept de methode convertRemoteControllerToRemoteControllerDto aan op de remoteControllerService. Deze methode zet een RemoteController-object om naar een RemoteControllerDto-object. Het resulterende RemoteControllerDto-object wordt vervolgens ingesteld op het overeenkomstige veld (remoteControllerDto) van het TelevisionDto-object (televisionDto).
             televisionDto.setRemoteControllerDto(remoteControllerService.convertRemoteControllerToRemoteControllerDto(television.getRemoteController()));
         }
         return televisionDto;
@@ -135,7 +134,6 @@ private final RemoteControllerService remoteControllerService;
             // Als er een televisie is gevonden, krijgen we het Television-object uit de Optional.
             Television tv = televisionId.get();
             TelevisionDto dto = convertTelevisionToTelevisionDto(tv);
-
             // Nu roepen we de methode convertTelevisionToTelevisionDto aan om het Television-object
             // om te zetten naar een TelevisionDto-object voordat het wordt geretourneerd.
             return dto;
@@ -153,7 +151,7 @@ private final RemoteControllerService remoteControllerService;
         repos.deleteById(id);
     }
 
-    // geeft TelevisonDto aan omdat je ook de gegevens wilt presenteren aan een externe laag.
+    // geeft TelevisonDto aan omdat je ook de gegevens wilt presenteren aan een de gebruiker.
     // long id: is id van de televisie die moet worden bijgewerkt. Het wordt gebruikt om de juiste televisie in de database te lokaliseren. Het ID is een unieke waarde die elk televisieobject identificeert.
     //Television television: Dit is het televisieobject met bijgewerkte gegevens. In de methode wordt dit object gebruikt om de bestaande televisiegegevens bij te werken. De velden van dit object bevatten de nieuwe waarden die moeten worden ingesteld voor het bijbehorende televisie-ID.
         public TelevisionDto updateTelevision(long id, Television television){
