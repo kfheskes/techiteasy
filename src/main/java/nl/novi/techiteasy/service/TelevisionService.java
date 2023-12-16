@@ -219,9 +219,8 @@ private final CIModuleRepository ciModuleRepository;
     }
 
     public void assignCIModuleToTelevision(long televisionId, long ciModuleID){
-        Optional<CIModule> optionalCIModule = ciModuleRepository.findById(ciModuleID);
         Optional<Television> optionalTelevision = repos.findById(televisionId);
-
+        Optional<CIModule> optionalCIModule = ciModuleRepository.findById(ciModuleID);
         if(optionalTelevision.isPresent() && optionalCIModule.isPresent()){
             Television television = optionalTelevision.get();
             CIModule ciModule = optionalCIModule.get();
