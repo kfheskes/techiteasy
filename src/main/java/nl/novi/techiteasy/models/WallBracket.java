@@ -17,9 +17,9 @@ public class WallBracket {
     @Id
     @GeneratedValue
     private long id;
-
     private String size;
-    private boolean adjustable;
+
+    private Boolean adjustable;
     private String name;
     private double price;
 
@@ -27,7 +27,7 @@ public class WallBracket {
     private Set<Television> televisions = new HashSet<>();
 
 
-    public WallBracket(Long id, String size, boolean adjustable, String name, double price) {
+    public WallBracket(Long id, String size, Boolean adjustable, String name, double price) {
         this.id = id;
         this.size = size;
         this.adjustable = adjustable;
