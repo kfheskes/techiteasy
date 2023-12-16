@@ -80,9 +80,17 @@ public class TelevisionsController {
     }
 
     @PutMapping("/{id}/remotecontrollers")
-    public ResponseEntity<TelevisionDto> assignRemoteControllerToTelevision(@PathVariable  long id, @RequestBody IdInputDto input) {
+    public ResponseEntity<TelevisionDto> assignRemoteControllerToTelevision(@PathVariable long id, @RequestBody IdInputDto input) {
+        // De methode neemt het ID van de televisie (uit de URI) en het ID van de afstandsbediening (uit de request body).
         televisionService.assignRemoteControllerToTelevision(id, input.id);
+        // ResponseEntity.noContent() retourneert een HTTP 204 No Content-response.
+        // Dit wordt gebruikt om aan te geven dat de operatie met succes is uitgevoerd, maar er is geen specifieke inhoud om terug te sturen.
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/cimodules")
+    public ResponseEntity<TelevisionDto> assignCIModuleToTelevision(@PathVariable  long id, @RequestBody IdInputDto input) {
+        televisionService.assignCIModuleToTelevision(id, input.id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -30,11 +30,11 @@ public class CIModuleController {
 
 
     @PostMapping
-    public ResponseEntity<CIModuleDto> createCIModule(@Valid @RequestBody CIModuleInputDto CIModuleInputDto, BindingResult br) {
+    public ResponseEntity<CIModuleDto> createCIModule(@Valid @RequestBody CIModuleInputDto ciModuleInputDto, BindingResult br) {
     if (br.hasFieldErrors()) {
         throw new ValidationException(checkForBindingResult(br));
     } else {
-        CIModuleDto savedCIModule = CIModuleService.createCIModule(CIModuleInputDto);
+        CIModuleDto savedCIModule = CIModuleService.createCIModule(ciModuleInputDto);
         URI uri = URI.create(
                 ServletUriComponentsBuilder
                         .fromCurrentRequest()

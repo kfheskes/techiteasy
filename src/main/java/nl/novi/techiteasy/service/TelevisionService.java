@@ -3,8 +3,10 @@ package nl.novi.techiteasy.service;
 import nl.novi.techiteasy.dtos.television.TelevisionDto;
 import nl.novi.techiteasy.dtos.television.TelevisionInputDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
+import nl.novi.techiteasy.models.CIModule;
 import nl.novi.techiteasy.models.RemoteController;
 import nl.novi.techiteasy.models.Television;
+import nl.novi.techiteasy.repositories.CIModuleRepository;
 import nl.novi.techiteasy.repositories.RemoteControllerRepository;
 import nl.novi.techiteasy.repositories.TelevisionRepository;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,16 @@ public class TelevisionService {
 //Repositories worden gebruikt om gegevens uit een database te halen, en services worden gebruikt om de bedrijfslogica van de applicatie te implementeren.
 private final TelevisionRepository repos;
 private final RemoteControllerRepository remoteControllerRepos;
-
 private final RemoteControllerService remoteControllerService;
 
-    public TelevisionService(TelevisionRepository repos, RemoteControllerRepository remoteControllerRepos, RemoteControllerService remoteControllerService) {
+private final CIModuleService ciModuleService;
+private final CIModuleRepository ciModuleRepository;
+    public TelevisionService(TelevisionRepository repos, RemoteControllerRepository remoteControllerRepos, RemoteControllerService remoteControllerService, CIModuleService ciModuleService, CIModuleRepository ciModuleRepository) {
         this.repos = repos;
         this.remoteControllerRepos = remoteControllerRepos;
         this.remoteControllerService = remoteControllerService;
+        this.ciModuleService = ciModuleService;
+        this.ciModuleRepository = ciModuleRepository;
     }
 
     // onderstaande haalt data(television) uit de database models Television via de service naar de gebruiker TelevisionDto
@@ -96,6 +101,11 @@ private final RemoteControllerService remoteControllerService;
 //            remoteControllerService.convertRemoteControllerToRemoteControllerDto(television.getRemoteController()): Als de voorwaarde waar is, wordt deze lijn uitgevoerd. Het roept de methode convertRemoteControllerToRemoteControllerDto aan op de remoteControllerService. Deze methode zet een RemoteController-object om naar een RemoteControllerDto-object. Het resulterende RemoteControllerDto-object wordt vervolgens ingesteld op het overeenkomstige veld (remoteControllerDto) van het TelevisionDto-object (televisionDto).
             televisionDto.setRemoteControllerDto(remoteControllerService.convertRemoteControllerToRemoteControllerDto(television.getRemoteController()));
         }
+
+        if (television.getCIModule() != null){
+            televisionDto.setCiModuleDto(ciModuleService.CIModuleTransferToCIModuleDto(television.getCIModule()));
+        }
+
         return televisionDto;
 
     }
@@ -205,6 +215,20 @@ private final RemoteControllerService remoteControllerService;
         } else {
             // Gooi een RecordNotFoundException als een van beide objecten niet is gevonden.
             throw new RecordNotFoundException("No television found with id " + televisionId);
+        }
+    }
+
+    public void assignCIModuleToTelevision(long televisionId, long ciModuleID){
+        Optional<CIModule> optionalCIModule = ciModuleRepository.findById(ciModuleID);
+        Optional<Television> optionalTelevision = repos.findById(televisionId);
+
+        if(optionalTelevision.isPresent() && optionalCIModule.isPresent()){
+            Television television = optionalTelevision.get();
+            CIModule ciModule = optionalCIModule.get();
+            television.setCIModule(ciModule);
+            repos.save(television);
+        } else {
+            throw new RecordNotFoundException("No television found with id with ci-module");
         }
     }
 

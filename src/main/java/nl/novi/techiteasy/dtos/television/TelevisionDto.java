@@ -2,7 +2,9 @@ package nl.novi.techiteasy.dtos.television;
 
 
 
+import nl.novi.techiteasy.dtos.cimodule.CIModuleDto;
 import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerDto;
+import nl.novi.techiteasy.models.CIModule;
 import nl.novi.techiteasy.models.RemoteController;
 
 
@@ -39,5 +41,10 @@ public class TelevisionDto {
         this.remoteControllerDto = remoteControllerDto;
     }
 
+    public CIModuleDto ciModuleDto;
+
+    public void setCiModuleDto(CIModuleDto ciModuleDto){
+        this.ciModuleDto = ciModuleDto;
+    }
 
 }
