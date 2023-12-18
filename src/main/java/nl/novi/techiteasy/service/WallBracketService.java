@@ -41,7 +41,7 @@ public class WallBracketService {
         return dto;
     }
 
-    public WallBracketDto createWallbracket(WallBracketDto wallBracketDto) {
+    public WallBracketDto createWallBracket(WallBracketDto wallBracketDto) {
         WallBracket wallBracket = transferToWallBracket(wallBracketDto);
         wallBracketRepository.save(wallBracket);
         return transferToDto(wallBracket);

@@ -1,6 +1,7 @@
 package nl.novi.techiteasy.controllers;
 
 import nl.novi.techiteasy.dtos.wallbracket.WallBracketDto;
+import nl.novi.techiteasy.service.TelevisionWallBracketService;
 import nl.novi.techiteasy.service.WallBracketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +36,8 @@ public class WallBracketController {
     }
 //TODO: postmapping aanpassen
     @PostMapping()
-    public ResponseEntity<WallBracketDto> addWallBracket(@RequestBody WallBracketDto dto) {
-        WallBracketDto wallBracket = wallBracketService.createWallbracket(dto);
+    public ResponseEntity<WallBracketDto> createWallBracket(@RequestBody WallBracketDto dto) {
+        WallBracketDto wallBracket = wallBracketService.createWallBracket(dto);
         return ResponseEntity.created(null).body(wallBracket);
     }
 
