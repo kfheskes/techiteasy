@@ -23,6 +23,7 @@ public class RemoteController {
     private Double price;
     private int originalStock;
 
+    // dit is de target dit komt door mappedBy
     @OneToOne(mappedBy = "remoteController")
     private Television television;
 

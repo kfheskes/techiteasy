@@ -43,9 +43,10 @@ public class Television {
    @ManyToOne(fetch= FetchType.EAGER )
    private CIModule CIModule;
 
+   // joinColumns is de owner kolom en de inverseJoinColumns is target
    @ManyToMany(fetch = FetchType.EAGER)
-   @JoinTable(name = "televisions_wallBrackets", joinColumns = @JoinColumn(name = "wallBrackets_id"),
-           inverseJoinColumns = @JoinColumn(name = "television_id")
+   @JoinTable(name = "televisions_wallBrackets", joinColumns = @JoinColumn(name = "television_id"), inverseJoinColumns = @JoinColumn(name = "wallBrackets_id")
+
    )
 
 

@@ -2,6 +2,8 @@ package nl.novi.techiteasy.dtos.television;
 
 
 
+import lombok.Getter;
+import lombok.Setter;
 import nl.novi.techiteasy.dtos.cimodule.CIModuleDto;
 import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerDto;
 import nl.novi.techiteasy.models.CIModule;
@@ -9,7 +11,8 @@ import nl.novi.techiteasy.models.RemoteController;
 
 
 import java.time.LocalDate;
-
+@Getter
+@Setter
 public class TelevisionDto {
 
     public long id;
