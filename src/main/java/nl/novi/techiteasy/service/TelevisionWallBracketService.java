@@ -30,7 +30,7 @@ public class TelevisionWallBracketService {
         this.wallBracketRepository = wallBracketRepository;
         this.televisionWallBracketRepository = televisionWallBracketRepository;
     }
-
+ //TODO uizoeken hoe deze klasse werkt
     public Collection<TelevisionDto> getTelevisionsByWallBracketId(Long wallBracketId) {
         Collection<TelevisionDto> dtos = new HashSet<>();
         Collection<TelevisionWallBracket> televisionWallbrackets = televisionWallBracketRepository.findAllByWallBracketId(wallBracketId);
@@ -82,17 +82,25 @@ public class TelevisionWallBracketService {
     }
 
     public TelevisionWallBracketKey addTelevisionWallBracket(Long televisionId, Long wallBracketId) {
-        var televisionWallBracket = new TelevisionWallBracket();
-        if (!televisionRepository.existsById(televisionId)) {throw new RecordNotFoundException();}
+        if (!televisionRepository.existsById(televisionId) || !wallBracketRepository.existsById(wallBracketId)) {
+            throw new RecordNotFoundException();
+        }
+
         Television television = televisionRepository.findById(televisionId).orElse(null);
-        if (!wallBracketRepository.existsById(wallBracketId)) {throw new RecordNotFoundException();}
         WallBracket wallBracket = wallBracketRepository.findById(wallBracketId).orElse(null);
-        televisionWallBracket.setTelevision(television);
-        televisionWallBracket.setWallBracket(wallBracket);
-        TelevisionWallBracketKey id = new TelevisionWallBracketKey(televisionId, wallBracketId);
-        televisionWallBracket.setId(id);
-        televisionWallBracketRepository.save(televisionWallBracket);
-        return id;
+
+        if (television != null && wallBracket != null) {
+            var televisionWallBracket = new TelevisionWallBracket();
+            televisionWallBracket.setTelevision(television);
+            televisionWallBracket.setWallBracket(wallBracket);
+            TelevisionWallBracketKey id = new TelevisionWallBracketKey(televisionId, wallBracketId);
+            televisionWallBracket.setId(id);
+            televisionWallBracketRepository.save(televisionWallBracket);
+            return id;
+        }
+        // Als je hier komt, betekent het dat de televisie of wall bracket niet is gevonden.
+        // In dit geval wordt de RecordNotFoundException gegooid.
+        throw new RecordNotFoundException();
     }
 
 }
