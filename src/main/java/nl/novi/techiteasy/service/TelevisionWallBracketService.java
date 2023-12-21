@@ -30,7 +30,8 @@ public class TelevisionWallBracketService {
         this.wallBracketRepository = wallBracketRepository;
         this.televisionWallBracketRepository = televisionWallBracketRepository;
     }
- //TODO uizoeken hoe deze klasse werkt
+
+    //TODO uizoeken hoe deze klasse werkt
     public Collection<TelevisionDto> getTelevisionsByWallBracketId(Long wallBracketId) {
         Collection<TelevisionDto> dtos = new HashSet<>();
         Collection<TelevisionWallBracket> televisionWallbrackets = televisionWallBracketRepository.findAllByWallBracketId(wallBracketId);
