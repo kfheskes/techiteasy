@@ -112,11 +112,19 @@ private final WallBracketRepository wallBracketRepository;
         if (television.getCIModule() != null){
             televisionDto.setCiModuleDto(ciModuleService.CIModuleTransferToCIModuleDto(television.getCIModule()));
         }
+        // Controleert of de Set van WallBracket-objecten niet gelijk is aan null
         if (television.getWallBrackets() != null) {
+            // Als de Set van WallBracket-objecten niet null is, wordt een nieuwe Set van WallBracketDto-objecten gemaakt (wallBracketDtos).
             Set<WallBracketDto> wallBracketDtos = new HashSet<>();
+            // Voor elk WallBracket-object in de Set van WallBracket-objecten, wordt de methode transferToDto aangeroepen
+            // om het WallBracket-object om te zetten naar een WallBracketDto-object.
+            // Het resulterende WallBracketDto-object wordt toegevoegd aan de Set wallBracketDtos.
             for (WallBracket wallBracket : television.getWallBrackets()){
                 wallBracketDtos.add(wallBracketService.transferToDto(wallBracket));
             }
+
+            // De Set van WallBracketDto-objecten (wallBracketDtos) wordt ingesteld op het overeenkomstige veld (wallBrackets)
+            // van het TelevisionDto-object (televisionDto).
             televisionDto.setWallBrackets(wallBracketDtos);
         }
 
