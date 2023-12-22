@@ -83,19 +83,18 @@ public class TelevisionWallBracketService {
     }
 
     public TelevisionWallBracketKey addTelevisionWallBracket(Long televisionId, Long wallBracketId) {
-        if (!televisionRepository.existsById(televisionId) || !wallBracketRepository.existsById(wallBracketId)) {
-            throw new RecordNotFoundException();
-        }
-
+        // kijkt of het bestaat en anders geeft het orElse terug van niks andere manier dan optinal
         Television television = televisionRepository.findById(televisionId).orElse(null);
         WallBracket wallBracket = wallBracketRepository.findById(wallBracketId).orElse(null);
 
         if (television != null && wallBracket != null) {
-            var televisionWallBracket = new TelevisionWallBracket();
+            TelevisionWallBracket televisionWallBracket = new TelevisionWallBracket();
             televisionWallBracket.setTelevision(television);
             televisionWallBracket.setWallBracket(wallBracket);
+            // waarom is TelevisionWallBracketkey nodig alleen om de id in op te slaan?
             TelevisionWallBracketKey id = new TelevisionWallBracketKey(televisionId, wallBracketId);
             televisionWallBracket.setId(id);
+            // slaat dus een tvwbid op en objecten van television en wallBrackets?
             televisionWallBracketRepository.save(televisionWallBracket);
             return id;
         }
