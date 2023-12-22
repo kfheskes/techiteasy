@@ -7,4 +7,9 @@ INSERT INTO televisions (id, type, brand, name, price, available_size, refresh_r
 INSERT INTO remote_controller (id, compatible_with, battery_type, name, brand, price, original_stock)
 VALUES
     (1, 'Philips', 'AA', 'NHAJ4379', 'Philips', 35, 5),
-    (2, 'LG', 'AAA', 'HDF7348', 'LG', 20, 10)
+    (2, 'LG', 'AAA', 'HDF7348', 'LG', 20, 10);
+
+INSERT INTO wall_bracket  (id, size, adjustable, name, price)
+VALUES
+    (101, 'large', true, 'handy', 20),
+    (102, 'small', false, 'super', 40);

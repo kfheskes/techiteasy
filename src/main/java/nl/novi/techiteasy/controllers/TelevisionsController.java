@@ -1,5 +1,6 @@
 package nl.novi.techiteasy.controllers;
 
+import jakarta.persistence.Id;
 import jakarta.validation.Valid;
 import nl.novi.techiteasy.dtos.IdInputDto;
 import nl.novi.techiteasy.dtos.television.TelevisionDto;
@@ -91,6 +92,12 @@ public class TelevisionsController {
     @PutMapping("/{id}/cimodules")
     public ResponseEntity<TelevisionDto> assignCIModuleToTelevision(@PathVariable  long id, @RequestBody IdInputDto input) {
         televisionService.assignCIModuleToTelevision(id, input.id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/wallbrackets")
+    public ResponseEntity<TelevisionDto> assignWallBracketToTelevision(@PathVariable long id, @RequestBody IdInputDto input){
+        televisionService.assignWallBracketToTelevision(id, input.id);
         return ResponseEntity.noContent().build();
     }
 }

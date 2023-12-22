@@ -11,7 +11,7 @@ import java.util.Set;
 @Setter
 
 @Entity
-@Table(name = "Wall_Bracket")
+@Table(name = "wall_bracket")
 public class WallBracket {
 
     @Id
