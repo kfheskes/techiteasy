@@ -1,4 +1,4 @@
-package nl.novi.techiteasy.dtos.userDto;
+package nl.novi.techiteasy.dtos.payload;
 
 import lombok.Getter;
 import lombok.Setter;
