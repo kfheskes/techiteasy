@@ -13,3 +13,12 @@ INSERT INTO wall_bracket  (id, size, adjustable, name, price)
 VALUES
     (101, 'large', true, 'handy', 20),
     (102, 'small', false, 'super', 40);
+
+INSERT INTO users(username, password, enabled, apiKey, email)
+VALUES
+    ('kay', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImtheSIsImlhdCI6MTUxNjIzOTAyMn0.BMwW-y5qHGhx-0rMb2ljJFQ0fpnyxJz3praUUOlXF_o', TRUE, 'jaja', 'kay@novi.nl'),
+    ('nancy', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImtheSIsImlhdCI6MTUxNjIzOTAyMn0.BMwW-y5qHGhx-0rMb2ljJFQ0fpnyxJz3praUUOlXF_o', TRUE, 'neenee', 'kay@novi.nl');
+
+INSERT INTO authorities (username, authority)
+VALUES ('kay', 'ROLE_ADMIN'),
+       ('nancy', 'ROLE_USER')

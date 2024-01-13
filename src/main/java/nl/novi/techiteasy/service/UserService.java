@@ -6,6 +6,7 @@ import nl.novi.techiteasy.models.Authority;
 import nl.novi.techiteasy.models.User;
 import nl.novi.techiteasy.repositories.UserRepository;
 import nl.novi.techiteasy.utils.RandomStringGenerator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

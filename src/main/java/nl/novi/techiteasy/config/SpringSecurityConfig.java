@@ -1,10 +1,10 @@
 package nl.novi.techiteasy.config;
 
-import net.officefloor.server.http.HttpMethod;
 import nl.novi.techiteasy.filter.JwtRequestFilter;
 import nl.novi.techiteasy.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -58,12 +58,20 @@ public class SpringSecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                                         // Wanneer je deze uncomments, staat je hele security open. Je hebt dan alleen nog een jwt nodig.
-//                .requestMatchers("/**").permitAll()
+                                        //                .requestMatchers("/**").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
                                         .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-                                        /*TODO voeg de antmatchers toe voor admin(post en delete) en user (overige)*/
+                                        .requestMatchers(HttpMethod.POST, "/cimodules").hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.DELETE, "/cimodules/**").hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.POST, "/remotecontrollers").hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.DELETE, "/remotecontrollers/**").hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.POST, "/televisions").hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.DELETE, "/televisions/**").hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.POST, "/wallbrackets").hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.DELETE, "/wallbrackets/**").hasRole("ADMIN")
+                                        .requestMatchers("/cimodules", "/remotecontrollers", "/televisions", "/wallbrackets").hasAnyRole("ADMIN", "USER")
                                         .requestMatchers("/authenticated").authenticated()
                                         .requestMatchers("/authenticate").permitAll()/*alleen dit punt mag toegankelijk zijn voor niet ingelogde gebruikers*/
                                         .anyRequest().denyAll() /*Deze voeg je altijd als laatste toe, om een default beveiliging te hebben voor eventuele vergeten endpoints of endpoints die je later toevoegd. */
