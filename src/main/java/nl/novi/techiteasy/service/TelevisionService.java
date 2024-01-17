@@ -2,18 +2,19 @@ package nl.novi.techiteasy.service;
 
 import nl.novi.techiteasy.dtos.television.TelevisionDto;
 import nl.novi.techiteasy.dtos.television.TelevisionInputDto;
+import nl.novi.techiteasy.dtos.wallbracket.WallBracketDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy.models.CIModule;
 import nl.novi.techiteasy.models.RemoteController;
 import nl.novi.techiteasy.models.Television;
+import nl.novi.techiteasy.models.WallBracket;
 import nl.novi.techiteasy.repositories.CIModuleRepository;
 import nl.novi.techiteasy.repositories.RemoteControllerRepository;
 import nl.novi.techiteasy.repositories.TelevisionRepository;
+import nl.novi.techiteasy.repositories.WallBracketRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TelevisionService {
@@ -24,12 +25,18 @@ private final RemoteControllerService remoteControllerService;
 
 private final CIModuleService ciModuleService;
 private final CIModuleRepository ciModuleRepository;
-    public TelevisionService(TelevisionRepository repos, RemoteControllerRepository remoteControllerRepos, RemoteControllerService remoteControllerService, CIModuleService ciModuleService, CIModuleRepository ciModuleRepository) {
+
+private final WallBracketService wallBracketService;
+
+private final WallBracketRepository wallBracketRepository;
+    public TelevisionService(TelevisionRepository repos, RemoteControllerRepository remoteControllerRepos, RemoteControllerService remoteControllerService, CIModuleService ciModuleService, CIModuleRepository ciModuleRepository, WallBracketService wallBracketService, WallBracketRepository wallBracketRepository) {
         this.repos = repos;
         this.remoteControllerRepos = remoteControllerRepos;
         this.remoteControllerService = remoteControllerService;
         this.ciModuleService = ciModuleService;
         this.ciModuleRepository = ciModuleRepository;
+        this.wallBracketService = wallBracketService;
+        this.wallBracketRepository = wallBracketRepository;
     }
 
     // onderstaande haalt data(television) uit de database models Television via de service naar de gebruiker TelevisionDto
@@ -104,6 +111,21 @@ private final CIModuleRepository ciModuleRepository;
 
         if (television.getCIModule() != null){
             televisionDto.setCiModuleDto(ciModuleService.CIModuleTransferToCIModuleDto(television.getCIModule()));
+        }
+        // Controleert of de Set van WallBracket-objecten niet gelijk is aan null
+        if (television.getWallBrackets() != null) {
+            // Als de Set van WallBracket-objecten niet null is, wordt een nieuwe Set van WallBracketDto-objecten gemaakt (wallBracketDtos).
+            Set<WallBracketDto> wallBracketDtos = new HashSet<>();
+            // Voor elk WallBracket-object in de Set van WallBracket-objecten, wordt de methode transferToDto aangeroepen
+            // om het WallBracket-object om te zetten naar een WallBracketDto-object.
+            // Het resulterende WallBracketDto-object wordt toegevoegd aan de Set wallBracketDtos.
+            for (WallBracket wallBracket : television.getWallBrackets()){
+                wallBracketDtos.add(wallBracketService.transferToDto(wallBracket));
+            }
+
+            // De Set van WallBracketDto-objecten (wallBracketDtos) wordt ingesteld op het overeenkomstige veld (wallBrackets)
+            // van het TelevisionDto-object (televisionDto).
+            televisionDto.setWallBrackets(wallBracketDtos);
         }
 
         return televisionDto;
@@ -225,6 +247,20 @@ private final CIModuleRepository ciModuleRepository;
             Television television = optionalTelevision.get();
             CIModule ciModule = optionalCIModule.get();
             television.setCIModule(ciModule);
+            repos.save(television);
+        } else {
+            throw new RecordNotFoundException("No television found with id with ci-module");
+        }
+    }
+
+    public void assignWallBracketToTelevision(long televisionId, long wallBracketID){
+        Optional<Television> optionalTelevision = repos.findById(televisionId);
+        Optional<WallBracket> optionalWallBracket = wallBracketRepository.findById(wallBracketID);
+
+        if(optionalTelevision.isPresent() && optionalWallBracket.isPresent()){
+            Television television = optionalTelevision.get();
+            WallBracket wallBracket = optionalWallBracket.get();
+            television.getWallBrackets().add(wallBracket);
             repos.save(television);
         } else {
             throw new RecordNotFoundException("No television found with id with ci-module");

@@ -19,40 +19,43 @@ public class Television {
     @GeneratedValue
     private long id;
     private String type;
-   private String brand;
-   private String name;
-   private Double price;
-   private Double availableSize;
-   private Double refreshRate;
-   private String screenType;
-   private String screenQuality;
-   private Boolean smartTv;
-   private Boolean wifi;
-   private Boolean voiceControl;
-   private Boolean hdr;
-   private Boolean bluetooth;
-   private Boolean ambiLight;
-   private Integer originalStock;
-   private Integer sold;
+    private String brand;
+    private String name;
+    private Double price;
+    private Double availableSize;
+    private Double refreshRate;
+    private String screenType;
+    private String screenQuality;
+    private Boolean smartTv;
+    private Boolean wifi;
+    private Boolean voiceControl;
+    private Boolean hdr;
+    private Boolean bluetooth;
+    private Boolean ambiLight;
+    private Integer originalStock;
+    private Integer sold;
 
-   private LocalDate saleDate;
-   private LocalDate purchaseDate;
+    private LocalDate saleDate;
+    private LocalDate purchaseDate;
 
-   @OneToOne
-   private RemoteController remoteController;
-   @ManyToOne(fetch= FetchType.EAGER )
-   private CIModule CIModule;
+    @OneToOne
+    private RemoteController remoteController;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private CIModule CIModule;
 
-   // joinColumns is de owner kolom en de inverseJoinColumns is target
-   @ManyToMany(fetch = FetchType.EAGER)
-   @JoinTable(name = "televisions_wallBrackets", joinColumns = @JoinColumn(name = "television_id"), inverseJoinColumns = @JoinColumn(name = "wallBrackets_id")
+    // joinColumns is de owner kolom en de inverseJoinColumns is target
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "televisions_wallBrackets",
+            joinColumns = @JoinColumn(name = "television_id"),
+            inverseJoinColumns = @JoinColumn(name = "wallBrackets_id")
 
-   )
+    )
 
 
-   private Set<WallBracket> wallBrackets = new HashSet<>();
+    private Set<WallBracket> wallBrackets = new HashSet<>();
 
-   public Television(){}
+    public Television() {
+    }
 
     public Television(long id, String type, String brand, String name, Double price, Double availableSize, Double refreshRate, String screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl, Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold, LocalDate saleDate, LocalDate purchaseDate) {
         this.id = id;
@@ -75,7 +78,6 @@ public class Television {
         this.saleDate = saleDate;
         this.purchaseDate = purchaseDate;
     }
-
 
 
 }

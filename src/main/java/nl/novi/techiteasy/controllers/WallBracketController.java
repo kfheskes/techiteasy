@@ -2,7 +2,6 @@ package nl.novi.techiteasy.controllers;
 
 import jakarta.validation.Valid;
 import nl.novi.techiteasy.dtos.wallbracket.WallBracketDto;
-import nl.novi.techiteasy.service.TelevisionWallBracketService;
 import nl.novi.techiteasy.service.WallBracketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -14,11 +13,8 @@ import java.util.List;
 @RestController
 public class WallBracketController {
     private final WallBracketService wallBracketService;
-    private final TelevisionWallBracketService televisionWallBracketService;
-    public WallBracketController(WallBracketService wallBracketService,
-                                 TelevisionWallBracketService televisionWallBracketService) {
+    public WallBracketController(WallBracketService wallBracketService){
         this.wallBracketService = wallBracketService;
-        this.televisionWallBracketService = televisionWallBracketService;
     }
 
     @GetMapping()

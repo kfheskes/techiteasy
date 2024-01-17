@@ -6,11 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import nl.novi.techiteasy.dtos.cimodule.CIModuleDto;
 import nl.novi.techiteasy.dtos.remotecontroller.RemoteControllerDto;
-import nl.novi.techiteasy.models.CIModule;
-import nl.novi.techiteasy.models.RemoteController;
+import nl.novi.techiteasy.dtos.wallbracket.WallBracketDto;
 
 
 import java.time.LocalDate;
+import java.util.Set;
+
 @Getter
 @Setter
 public class TelevisionDto {
@@ -40,6 +41,8 @@ public class TelevisionDto {
     public LocalDate purchaseDate;
     public RemoteControllerDto remoteControllerDto;
 
+
+
     public void setRemoteControllerDto(RemoteControllerDto remoteControllerDto) {
         this.remoteControllerDto = remoteControllerDto;
     }
@@ -49,5 +52,14 @@ public class TelevisionDto {
     public void setCiModuleDto(CIModuleDto ciModuleDto){
         this.ciModuleDto = ciModuleDto;
     }
+
+
+    public TelevisionDto() {
+        this.wallBrackets = wallBrackets;
+    }
+
+    public Set<WallBracketDto> wallBrackets;
+
+
 
 }
